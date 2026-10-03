@@ -27,4 +27,3 @@ jobs:
           xcodebuild -project Stopwatch.xcodeproj -scheme Stopwatch \
             -configuration Release -sdk iphoneos \
             -derivedDataPath build \
-            C
