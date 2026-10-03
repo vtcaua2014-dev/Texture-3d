@@ -21,9 +21,5 @@ jobs:
 
       - name: Gerar projeto Xcode
         run: xcodegen generate
-
-      - name: Compilar
-        run: |
-          xcodebuild -project Stopwatch.xcodeproj -scheme Stopwatch \
-            -configuration Release -sdk iphoneos \
-            -derivedDataPath build \
+        - name: Compilar    
+        run: xcodebuild -project Stopwatch.xcodeproj -scheme Stopwatch -configuration Release -sdk iphoneos -derivedDataPath build build
