@@ -11,7 +11,6 @@ jobs:
       - name: Extrair fontes do APK
         run: |
           APK=$(find . -iname "*.apk" | head -1)
-          echo "APK encontrado: $APK"
           mkdir -p Stopwatch/Fonts
           unzip -q -j "$APK" "assets/fonts/*" -d Stopwatch/Fonts
           cd Stopwatch/Fonts && for f in *\ *; do [ -e "$f" ] && mv "$f" "${f// /_}"; done; ls
@@ -21,5 +20,18 @@ jobs:
 
       - name: Gerar projeto Xcode
         run: xcodegen generate
-        - name: Compilar    
+
+      - name: Compilar
         run: xcodebuild -project Stopwatch.xcodeproj -scheme Stopwatch -configuration Release -sdk iphoneos -derivedDataPath build build
+
+      - name: Empacotar ipa
+        run: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/Stopwatch.app Payload/
+          zip -qr Stopwatch.ipa Payload
+
+      - name: Enviar ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stopwatch-ipa
+          path: Stopwatch.ipa
